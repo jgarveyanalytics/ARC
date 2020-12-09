@@ -21,6 +21,10 @@ def solve_05269061(x):
 
 
 def main():
+    """ Name: Jonathan Garvey
+        ID:   06744885
+        GitHub Repo URL: https://github.com/jgarveyanalytics/ARC
+    """
     # Find all the functions defined in this file whose names are
     # like solve_abcd1234(), and run them.
 
