@@ -10,15 +10,111 @@ import re
 ### result. Name them according to the task ID as in the three
 ### examples below. Delete the three examples. The tasks you choose
 ### must be in the data/training directory, not data/evaluation.
-def solve_6a1e5592(x):
+
+colours = {
+    "black": 0,
+    "blue": 1,
+    "red": 2,
+    "green": 3,
+    "yellow": 4,
+    "grey": 5,
+    "pink": 6,
+    "orange": 7,
+    "light-blue": 8,
+    "brown": 9
+}
+
+def copy_grid(x, except_colours = [], only_colours = []):
+    '''Makes a copy of a grid and defaults to zeroes if no colours are supplied.
+       If colours are supplied, the new grid will contain the same colours in the same
+       positions as the input grid.
+       Can also specify to copy all colouring and related positions except for 
+       specific colours.
+    '''
+    colours = [colour for colour in range(10) if colour not in except_colours and ((colour in only_colours) or (not only_colours))]
+    
+    x = np.isin(x, colours) * x
+    
     return x
 
-def solve_b2862040(x):
-    return x
+def solve_83302e8f(x):
+    '''Train input:
+        Main grid divided up into a grid of black squares by means of criss-cross lines
+            equally spaced and of any other colour.
+        Borders can be of any other colour and critically, can have gaps.
+        
+       Train output:
+        Grid size the exact same.
+        Horizontal and verticial lines (the 'criss cross') same size, position and colour.
+        Where no gaps exist in borders, enclosed inner squares are green.
+        Where gaps exist, i.e. when two inner squares flow into one another,
+         their combined area is shaded yellow.
+    '''
+    border_colour = x.max()
+    yellow_regions = set()
+    black = colours['black']
+    yellow = colours['yellow']
+    green = colours['green']
+    
+    base_shade = lambda x,y,d,border_colour: border_colour if ((x+1) % d == 0 and x > 0) or ((y+1) % d == 0 and y > 0) else green
+    
+    def store_yellow_regions(x, row_index, col_index, d):
 
-def solve_05269061(x):
-    return x
+        # Find out whether it's dividing in a vertical or horizontal direction
+        if (row_index+1) % d == 0: # gap is on a horizontal border, i.e. dividing vertically
+            col_min = col_index - (col_index % d)
+            col_max = col_min + (d - 2)
+            
+            # left box
+            row_min_left_partition = row_index - (d - 1)
+            row_max_left_partition = row_index - 1
+            
+            # right box
+            row_min_right_partition = row_index + 1
+            row_max_right_partition = row_index + (d -1)
+            
+            yellow_regions.add((row_min_left_partition, row_max_left_partition, col_min, col_max))
+            yellow_regions.add((row_min_right_partition, row_max_right_partition, col_min, col_max))
+            
+        else: # gap is on a vertical border, i.e. dividing horizontally
+            
+            row_min = row_index - (row_index % d)
+            row_max = row_min + (d - 2)
+            
+            # left box
+            col_min_left_partition = col_index - (d - 1)
+            col_max_left_partition = col_index - 1
+            
+            # right box
+            col_min_right_partition = col_index + 1
+            col_max_right_partition = col_index + (d -1)
+            
+            yellow_regions.add((row_min, row_max, col_min_left_partition, col_max_left_partition))
+            yellow_regions.add((row_min, row_max, col_min_right_partition, col_max_right_partition))
+    
+    sub_grid = x[0,0]
+    shape_x = x.shape
+    border_multiple_of = 0
+    for i in range(shape_x[1]):
+        sub_grid = (x[0:i+1, 0:i+1])
+        if sub_grid.sum() > 0:
+            border_multiple_of = sub_grid.shape[0]
+            break
 
+    coords = np.where(x==x)
+    base_grid = np.array([base_shade(point[0],point[1], border_multiple_of, border_colour) for point in zip(coords[0],coords[1])]).reshape(x.shape)
+    
+    gap_coords = np.where((base_grid - x > 0) & (base_grid != 3))
+    
+    for row_index, col_index in [gap for gap in zip(gap_coords[0],gap_coords[1])]:
+        base_grid[row_index, col_index] = yellow
+        if row_index != col_index: # intersection
+            store_yellow_regions(x, row_index, col_index, border_multiple_of)
+    
+    for row_min, row_max, col_min, col_max in yellow_regions:
+        base_grid[row_min:row_max+1, col_min:col_max+1] = yellow
+    
+    return base_grid
 
 def main():
     """ Name: Jonathan Garvey
