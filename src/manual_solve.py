@@ -116,6 +116,16 @@ def solve_83302e8f(x):
     
     return base_grid
 
+def solve_ff805c23(x):
+    height = len(x) # also width because puzzle takes the form of a square
+    blue = colours['blue']
+    blue_square_coords = np.where(x == blue)
+    
+    x = np.rot90(x,2)
+    x = x[blue_square_coords].reshape(5,5)
+    
+    return x
+
 def main():
     """ Name: Jonathan Garvey
         ID:   06744885
