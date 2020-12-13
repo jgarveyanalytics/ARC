@@ -1,4 +1,4 @@
-# Attempt at manually solving assorted challenges from The Abstraction and Reasoning Corpus (ARC)
+# Attempt at manually solving assorted challenges from the Abstraction and Reasoning Corpus (ARC)
 
 As part of an M.Sc. in AI I'm undertaking, students were asked to examine the the Abstraction and Reasoning Corpus and attempt to manually solve some of the challenges present in the corpus.
 
