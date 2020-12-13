@@ -4,6 +4,7 @@ import os, sys
 import json
 import numpy as np
 import re
+import itertools
 
 ### YOUR CODE HERE: write at least three functions which solve
 ### specific tasks by transforming the input x and returning the
@@ -179,6 +180,49 @@ def solve_b190f7f5(x):
         x_out[x_out_row_min:x_out_row_max, x_out_col_min:x_out_col_max] = new_figure
 
     return (x_out)
+
+def solve_5ad4f10b(x):
+    black = colours['black']
+    unique_colours = list(np.unique(x))
+    unique_colours.remove(black)
+    
+    # Get largest rectangle area for each colour
+    region_to_process = []
+    final_colour = 0
+    
+    for colour in unique_colours:
+        coords = np.where(x == colour)
+
+        row_min = coords[0].min()
+        row_max = coords[0].max()
+        col_min = coords[1].min()
+        col_max = coords[1].max()        
+        area = (row_max - row_min + 1) * (col_max - col_min + 1)
+        
+        if not region_to_process:
+            region_to_process = [colour, area, row_min, row_max, col_min, col_max]
+            final_colour = colour
+        
+        elif area < region_to_process[1]:
+            region_to_process = [colour, area, row_min, row_max, col_min, col_max]
+            
+        else:
+            final_colour = colour
+        
+    colour, area, row_min, row_max, col_min, col_max = region_to_process
+    length_each_square = (row_max - row_min + 1) / 3
+    x_hat = np.zeros([3,3])
+    
+    for row_index, col_index in itertools.product(range(3), range(3)):
+        row_begin = int(row_min + (row_index * length_each_square))
+        row_end = int(row_begin + length_each_square)
+        col_begin = int(col_min + (col_index * length_each_square))
+        col_end = int(col_begin + length_each_square)
+        
+        square = x[row_begin:row_end, col_begin:col_end]       
+        x_hat[row_index, col_index] = final_colour if np.any(square == colour) else black
+
+    return x_hat
 
 def main():
     """ Name: Jonathan Garvey
