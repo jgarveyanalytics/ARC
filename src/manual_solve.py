@@ -6,6 +6,47 @@ ID:   06744885
 GitHub Repo URL: https://github.com/jgarveyanalytics/ARC
 """
 
+'''
+--- Summary ---
+
+Challenges & Packages Used
+For this assignment I hand-coded manual solutions for 5 ARC challenges. There are:
+
+83302e8f
+5ad4f10b
+b190f7f5
+662c240a
+ff805c23
+
+Apart from NumPy and itertools, the solutions I provided were written in pure Python. No ML packages or algorithms were used to solve the puzzles/challengess.
+
+Discussion & Observations
+From the outset, I envisaged that each puzzle would present a unique challenge and with it, a unique set of mechanisms and features needed to solve it.
+After completing solving the challenges, I can say that this is partially the case.
+
+One of the tasks that came up more than once was to get the coordinates of elements of an array that met some condition and do something with the coordinates.
+For example in puzzle 5ad4f10b I looped through a list of colours, got the coordinates of all emements that matched that colour and used the coordinates to 
+draw a box around those elements. In puzzle 83302e8f I used the coordinates of the entire input array to create a new grid system with no gaps in the borders.
+
+Another requirement that came up more than once that the need to split an array into two more arrays, either vertically or horizontally. There was also the need to rotate
+an array through a number of degrees. This only came up twice in my solutions, but since we are dealing with a wide variety of geometric challenges, this is one task that I envsisage
+repeating itself time and time again.
+
+I think where all this is going is reusability and extensbility of code. Granted, it's definitely better to create functions for frequently used code snippets. A better idea would
+be, if we are serious about maximising the number of puzzles without bloating the code base, is to approach the solution from an objected oriented perspective. Starting with a class
+for a single 1x1 square, a library could be developed to enhance the way in how objects (in this case, shapes/patterns) are operated on. This of course would increase efficiency
+in solving challenges by hand. It doesn't address the issue of shape and pattern recognition, which is needed in order to move away from task-specific solutions.
+
+In his paper, On the Measure of Intelligence, Francois Chollet touches on these points perhaps in a more abstract way. He states that one of the top-level goals of ARC is to
+'focus on measuring a qualitatively broad form of generalization, by featuring highly abstract tasks that must be understood by a test-taker using very few examples.' (page 46)
+He gives the example of a line growing until it rebounds against another object (page 50). If we as humans can learn these patterns and generalise to unseen examples then surely
+that is the paradigm that we must operate in when writing programs and machine learning appliations to solve challenges in the ARC Corpus. On page 12, Chollet produces a beautiful
+hierarchial model of cognitive abilities in the context of generalizaton. It goes from General Intelligence -> Broad cognitive abilities -> Task specific skills. In this assignment,
+I opearted on the lowest level of the model, i.e. the task specific level. The best solutions on Kaggle exist nicely in the middle tier, i.e. the ML models used in the solutions have
+broad generalisation capabilities. They can reach low double digit solution accuracy across the entire ARC corpus. It remains to be seen if AI & ML can mature to the point where the ARC
+Corupus can be fully solved by ML models operating somwhere close to the general intellignce level of the hierarchial model.
+'''
+
 import os, sys
 import json
 import numpy as np
@@ -453,7 +494,7 @@ def main():
         json_filename = os.path.join(directory, ID + ".json")
         data = read_ARC_JSON(json_filename)
         test(ID, solve_fn, data)
-    
+   
 def read_ARC_JSON(filepath):
     """Given a filepath, read in the ARC task data which is in JSON
     format. Extract the train/test input/output pairs of
@@ -485,7 +526,6 @@ def test(taskID, solve, data):
     for x, y in zip(test_input, test_output):
         yhat = solve(x)
         show_result(x, y, yhat)
-
         
 def show_result(x, y, yhat):
     print("Input")
