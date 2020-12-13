@@ -2,7 +2,7 @@
 
 As part of an M.Sc. in AI I'm undertaking, students were asked to examine the the Abstraction and Reasoning Corpus and attempt to manually solve some of the challenges present in the corpus.
 
-In order to do so, I forked the [project](https://github.com/jmmcd/ARC) here on GitHub and cloned to my machine. Then I chose 5 (hopefully difficult!) examples from the corpus to work with. The solutions for the challenges I chose are contained in manual_solve.py.
+In order to do so, I forked the [project](https://github.com/jmmcd/ARC) here on GitHub and cloned to my machine. Then I chose 5 (hopefully difficult!) examples from the corpus to work with. The solutions for the challenges I chose are contained in [manual_solve.py](https://github.com/jgarveyanalytics/ARC/blob/master/src/manual_solve.py).
 
 Only NumPy and Itertools were used in the solutions.
 
