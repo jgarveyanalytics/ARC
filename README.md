@@ -1,4 +1,12 @@
-# Attempt at manuall solving assorted challenges from The Abstraction and Reasoning Corpus (ARC)
+# Attempt at manually solving assorted challenges from The Abstraction and Reasoning Corpus (ARC)
+
+As part of an M.Sc. in AI I'm undertaking, students were asked to examine the the Abstraction and Reasoning Corpus and attempt to manually solve some of the challenges present in the corpus.
+
+In order to do so, I forked the [project](https://github.com/jmmcd/ARC) here on GitHub and cloned to my machine. Then I chose 5 (hopefully difficult!) examples from the corpus to work with. The solutions for the challenges I chose are contained in manual_solve.py.
+
+See below for an overview of this repository and how to get started.
+
+# The Abstraction and Reasoning Corpus (ARC)
 
 This repository contains the ARC task data, as well as a browser-based interface for humans to try their hand at solving the tasks manually.
 
