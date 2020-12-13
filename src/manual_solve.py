@@ -142,6 +142,44 @@ def solve_662c240a(x):
 
     return sections[max_mistakes[0]]
 
+def solve_b190f7f5(x):
+    light_blue = colours['light-blue']
+    black = colours['black']
+    
+    height_x, width_x = x.shape
+    schema = np.vsplit(x,2) if height_x > width_x else np.hsplit(x,2)
+    figure = []
+    colours_positions = []
+    
+    if np.any(schema[0] == light_blue):
+        figure = schema[0]
+        colours_positions = schema[1]
+    else:
+        figure = schema[1]
+        colours_positions = schema[0]
+    
+    figure_shape = np.array(figure.shape)
+    colours_positions_shape = np.array(colours_positions.shape)
+    
+    shape_xhat = figure_shape * colours_positions_shape
+    
+    x_out = np.zeros(shape_xhat)
+    
+    coords_colours_positions = np.where(colours_positions==colours_positions)
+    
+    new_figure = []
+    
+    for row_index, col_index in zip(coords_colours_positions[0], coords_colours_positions[1]):
+        colour = colours_positions[row_index,col_index]
+        new_figure = np.where(figure == light_blue, colour, black)
+        x_out_row_min = row_index * figure_shape[0]
+        x_out_row_max = x_out_row_min + figure_shape[0]
+        x_out_col_min = col_index * figure_shape[1]
+        x_out_col_max = x_out_col_min + figure_shape[1]
+        x_out[x_out_row_min:x_out_row_max, x_out_col_min:x_out_col_max] = new_figure
+
+    return (x_out)
+
 def main():
     """ Name: Jonathan Garvey
         ID:   06744885
