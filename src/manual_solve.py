@@ -117,7 +117,6 @@ def solve_83302e8f(x):
     return base_grid
 
 def solve_ff805c23(x):
-    height = len(x) # also width because puzzle takes the form of a square
     blue = colours['blue']
     blue_square_coords = np.where(x == blue)
     
@@ -125,6 +124,23 @@ def solve_ff805c23(x):
     x = x[blue_square_coords].reshape(5,5)
     
     return x
+
+def solve_662c240a(x):
+    sections = np.vsplit(x,[3,6])
+    idx_section_most_mistakes = 0
+    max_mistakes = (0,0)
+    
+    for i, section in enumerate(sections):
+        section = np.rot90(np.flip(section))
+        mistakes = 0
+        for k in range(-2,3):
+            diag = np.diag(section,k)
+            expected_colour = diag[0]
+            mistakes += sum(np.where(diag != expected_colour, 1, 0))
+        
+        max_mistakes = (i,mistakes) if mistakes > max_mistakes[1] else max_mistakes
+
+    return sections[max_mistakes[0]]
 
 def main():
     """ Name: Jonathan Garvey
