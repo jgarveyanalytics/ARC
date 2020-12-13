@@ -4,6 +4,10 @@ As part of an M.Sc. in AI I'm undertaking, students were asked to examine the th
 
 In order to do so, I forked the [project](https://github.com/jmmcd/ARC) here on GitHub and cloned to my machine. Then I chose 5 (hopefully difficult!) examples from the corpus to work with. The solutions for the challenges I chose are contained in manual_solve.py.
 
+Only NumPy and Itertools were used in the solutions.
+
+For a summary and observation of results, please refer to [manual_solve.py](https://github.com/jgarveyanalytics/ARC/blob/master/src/manual_solve.py).
+
 See below for an overview of this repository and how to get started.
 
 # The Abstraction and Reasoning Corpus (ARC)
